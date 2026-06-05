@@ -21,7 +21,7 @@ public class PostController {
     @PostMapping("/api/posts")
     public Post createPost(@RequestBody Post post) {
         long newId = idGenereator.getAndIncrement();
-        Post newPost = new Post(newId, post.content(), LocalDateTime.now());
+        Post newPost = new Post(newId, post.getContent(), LocalDateTime.now());
 
         posts.put(newId, newPost);
 
@@ -42,11 +42,11 @@ public class PostController {
     @PutMapping("/api/posts/{id}")
     public Post updatePost(@PathVariable Long id, @RequestBody Post postRequest) {
         Post post = posts.get(id);
-        Post newPost = post.updateContent(postRequest.content());
+        post.updateContent(postRequest.getContent());
 
-        posts.put(id, newPost);
+        posts.put(id, post);
 
-        return newPost;
+        return post;
     }
 
     @DeleteMapping("/api/posts/{id}")
@@ -62,7 +62,7 @@ public class PostController {
     ) {
         return posts.values()
                 .stream()
-                .sorted((p1, p2) -> Long.compare(p2.id(), p1.id()))
+                .sorted((p1, p2) -> Long.compare(p2.getId(), p1.getId()))
                 .skip((long) page * size)
                 .limit(size)
                 .toList();
