@@ -54,4 +54,21 @@ public class PostController {
         posts.remove(id);
     }
 
+    // /api/posts/search?page=1&size=3
+    @GetMapping("/api/posts/search")
+    public List<Post> searchPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int size
+    ) {
+        return posts.values()
+                .stream()
+                .sorted((p1, p2) -> Long.compare(p2.id(), p1.id()))
+                .skip((long) page * size)
+                .limit(size)
+                .toList();
+        // sorted -> p2와 p1의 아이디를 비교하여 더 큰 쪽으로 우선 정렬 = 내림차순 정렬
+        // skip -> 메소드 안의 개수의 요소를 건너띄우고 그 다음부터 반환하겠다
+        // limit -> 원하는 사이즈만 반환하기
+    }
+
 }
