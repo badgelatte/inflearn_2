@@ -1,57 +1,57 @@
 package com.apiece.springboot_twitter;
 
+import com.apiece.springboot_twitter.repository.PostRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
+@RequiredArgsConstructor // final인 필드에 대해서 이것을 하나의 필드로 가지는 생성자를 만들어 준다
 public class PostController {
 
-    private Map<Long, Post> posts = new HashMap<>();
-    private AtomicLong idGenereator = new AtomicLong(1);
-    // 멀티 스레드 사용해서 여러 스레드가 다 드러어오면 AtomicLong은 동시에 들어와도 먼저 들어온 연산을 먼저 하는 식으로 순차적으로 끝냄
+    private final PostRepository postRepository;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/posts")
     public Post createPost(@RequestBody Post post) {
-        long newId = idGenereator.getAndIncrement();
-        Post newPost = new Post(newId, post.getContent(), LocalDateTime.now());
+        Post newPost = new Post(null, post.getContent(), LocalDateTime.now());
 
-        posts.put(newId, newPost);
+        postRepository.save(newPost);
 
         return newPost;
     }
 
     @GetMapping("/api/posts")
     public List<Post> getAllPosts() {
-        return new ArrayList<>(posts.values());
+        return postRepository.findAll();
     }
 
     // id가 없을 시 null로 반환
     @GetMapping("/api/posts/{id}")
     public Post getPost(@PathVariable Long id) {
-        return posts.get(id);
+        return postRepository.findById(id)
+                .orElseThrow();
     }
 
     @PutMapping("/api/posts/{id}")
     public Post updatePost(@PathVariable Long id, @RequestBody Post postRequest) {
-        Post post = posts.get(id);
-        post.updateContent(postRequest.getContent());
-
-        posts.put(id, post);
-
-        return post;
+        return postRepository.findById(id)
+                .map(post -> {
+                    post.updateContent(postRequest.getContent());
+                    return postRepository.save(post);
+                })
+                .orElseThrow();
+        // postRepository.findById로 조회한 다음 가져온 객체를 맵핑함
+        // 맵핑은 updateContent를 이용
+        // 요청 값으로 들고온 postRequest에 content를 여기다 바로 넣어주고 update
     }
 
     @DeleteMapping("/api/posts/{id}")
     public void deletePost(@PathVariable Long id) {
-        posts.remove(id);
+        postRepository.delteById(id);
     }
 
     // /api/posts/search?page=1&size=3
@@ -60,15 +60,7 @@ public class PostController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
     ) {
-        return posts.values()
-                .stream()
-                .sorted((p1, p2) -> Long.compare(p2.getId(), p1.getId()))
-                .skip((long) page * size)
-                .limit(size)
-                .toList();
-        // sorted -> p2와 p1의 아이디를 비교하여 더 큰 쪽으로 우선 정렬 = 내림차순 정렬
-        // skip -> 메소드 안의 개수의 요소를 건너띄우고 그 다음부터 반환하겠다
-        // limit -> 원하는 사이즈만 반환하기
+        return postRepository.findAllPaged(page, size);
     }
 
 }
