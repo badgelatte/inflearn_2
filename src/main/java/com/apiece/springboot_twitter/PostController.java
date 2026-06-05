@@ -1,7 +1,6 @@
 package com.apiece.springboot_twitter;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -18,16 +17,15 @@ public class PostController {
     private AtomicLong idGenereator = new AtomicLong(1);
     // 멀티 스레드 사용해서 여러 스레드가 다 드러어오면 AtomicLong은 동시에 들어와도 먼저 들어온 연산을 먼저 하는 식으로 순차적으로 끝냄
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/posts")
-    public ResponseEntity<Post> createPost(@RequestBody Post post) {
+    public Post createPost(@RequestBody Post post) {
         long newId = idGenereator.getAndIncrement();
         Post newPost = new Post(newId, post.content(), LocalDateTime.now());
 
         posts.put(newId, newPost);
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(newPost);
+        return newPost;
     }
 
     @GetMapping("/api/posts")
