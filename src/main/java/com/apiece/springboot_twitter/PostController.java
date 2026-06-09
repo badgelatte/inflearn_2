@@ -51,7 +51,7 @@ public class PostController {
 
     @DeleteMapping("/api/posts/{id}")
     public void deletePost(@PathVariable Long id) {
-        postRepository.delteById(id);
+        postRepository.deleteById(id);
     }
 
     // /api/posts/search?page=1&size=3

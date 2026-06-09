@@ -13,7 +13,7 @@ public interface PostRepository {
 
     Optional<Post> findById(Long id);
 
-    void delteById(Long id);
+    void deleteById(Long id);
 
     List<Post> findAllPaged(int page, int size);
 }
