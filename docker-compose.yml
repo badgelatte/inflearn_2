@@ -21,7 +21,7 @@ services:
       MYSQL_USER: dev
       MYSQL_PASSWORD: dev123
     ports:
-      - "3306:3306"
+      - "3307:3306"
     networks:
       - twitter-network
 networks:
