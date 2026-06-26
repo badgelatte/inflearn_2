@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 public class RepositoryConfig {
 
     @Bean // 원래는 (name = "postRepository")로 지정하나 없으면 메서드명을 따라간다
-    public PostRepository postRepository(JpaPostRepository jpaPostRepository) {
+    public PostRepository postRepository(InMemoryPostRepository jpaPostRepository) {
         return jpaPostRepository;
     }
 }
