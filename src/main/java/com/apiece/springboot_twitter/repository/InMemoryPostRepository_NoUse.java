@@ -7,8 +7,8 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 
-@Repository
-public class InMemoryPostRepository implements PostRepository{
+//@Repository
+public class InMemoryPostRepository_NoUse implements PostRepository_NoUse{
 
     private Map<Long, Post> posts = new HashMap<>();
     private AtomicLong idGenereator = new AtomicLong(1);
