@@ -1,6 +1,6 @@
 package com.apiece.springboot_twitter.repository;
 
-import com.apiece.springboot_twitter.Post;
+import com.apiece.springboot_twitter.post.Post;
 
 import java.util.List;
 import java.util.Optional;

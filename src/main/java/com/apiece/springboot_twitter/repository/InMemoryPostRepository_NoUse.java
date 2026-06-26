@@ -1,7 +1,6 @@
 package com.apiece.springboot_twitter.repository;
 
-import com.apiece.springboot_twitter.Post;
-import org.springframework.stereotype.Repository;
+import com.apiece.springboot_twitter.post.Post;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;

@@ -1,4 +1,4 @@
-package com.apiece.springboot_twitter;
+package com.apiece.springboot_twitter.post;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

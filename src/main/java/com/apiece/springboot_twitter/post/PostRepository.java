@@ -1,6 +1,5 @@
-package com.apiece.springboot_twitter.repository;
+package com.apiece.springboot_twitter.post;
 
-import com.apiece.springboot_twitter.Post;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

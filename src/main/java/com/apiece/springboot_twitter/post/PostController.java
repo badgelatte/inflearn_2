@@ -1,6 +1,5 @@
-package com.apiece.springboot_twitter;
+package com.apiece.springboot_twitter.post;
 
-import com.apiece.springboot_twitter.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

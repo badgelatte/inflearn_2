@@ -1,7 +1,6 @@
 package com.apiece.springboot_twitter.repository;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import com.apiece.springboot_twitter.post.PostRepository;
 
 //@Configuration
 public class RepositoryConfig_NoUse {
