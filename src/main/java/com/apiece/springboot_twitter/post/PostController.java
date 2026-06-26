@@ -57,12 +57,17 @@ public class PostController {
     // /api/posts/search?page=1&size=3
     @GetMapping("/api/posts/search")
     public Slice<Post> searchPosts(
-            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(required = false) Long lastPostId,
             @RequestParam(defaultValue = "3") int size
     ) {
+        int page = 0;
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
 
-        return postRepository.findSliceBy(pageable);
+        if (lastPostId == null) {
+            return postRepository.findSliceBy(pageable);
+        } else {
+            return postRepository.findSliceByIdLessThan(lastPostId, pageable);
+        }
     }
 
 }

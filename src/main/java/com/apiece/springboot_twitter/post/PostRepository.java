@@ -17,4 +17,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 //    }
 
     Slice<Post> findSliceBy(Pageable pageable);
+    Slice<Post> findSliceByIdLessThan(Long lastId, Pageable pageable);
 }
