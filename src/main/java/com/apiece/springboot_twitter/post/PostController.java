@@ -1,6 +1,7 @@
 package com.apiece.springboot_twitter.post;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,11 +56,13 @@ public class PostController {
 
     // /api/posts/search?page=1&size=3
     @GetMapping("/api/posts/search")
-    public List<Post> searchPosts(
+    public Slice<Post> searchPosts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
     ) {
-        return postRepository.findAllPaged(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+
+        return postRepository.findSliceBy(pageable);
     }
 
 }
