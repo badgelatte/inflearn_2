@@ -19,13 +19,12 @@ public class CommentService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
 
-        Comment comment = new Comment(
-                null,         // 아이디는 JPA랑 MySQL이 만들어줌
-                request.getContent(),
-                postId,
-                LocalDateTime.now(),
-                LocalDateTime.now()
-        );
+        Comment comment = Comment.builder()
+                .content(request.getContent())
+                .postId(postId)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
 
         Comment newComment = commentRepository.save(comment);
 
