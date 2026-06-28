@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 // JPA가 이 클래스를 상속한 다른 proxy 객체를 사용한다 그래서 protected로 사용할 수 있도록 접근 범위 늘려줌
 // JPA는 NoArgsConstructor는가 필요해서 만들었지만 개발자가 사용할 땐 AllArgsConstructor를 쓰도록 권장함
+// => protected는 JPA에게는 허용하지만 외부 직접 사용은 막는다.
 @Table(name = "comments")
 @Entity
 public class Comment {
