@@ -27,7 +27,12 @@ public class CommentService {
                 LocalDateTime.now()
         );
 
-        return commentRepository.save(comment);
+        Comment newComment = commentRepository.save(comment);
+
+        post.increaseCommentCount();
+        postRepository.save(post);
+
+        return newComment;
     }
 
     public List<Comment> getComments(Long postId) {
@@ -44,8 +49,15 @@ public class CommentService {
     }
 
     public void deleteComment(Long postId, Long commentId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
+
         Comment comment = commentRepository.findByIdAndPostId(commentId, postId)
                 .orElseThrow(() -> new IllegalArgumentException("댓글을 찾을 수 없습니다."));
+
+        post.decreaseCommentCount();
+
         commentRepository.delete(comment);
+        postRepository.save(post);
     }
 }

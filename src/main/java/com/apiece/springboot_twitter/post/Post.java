@@ -28,4 +28,12 @@ public class Post {
     public void updateContent(String content) {
         this.content = content;
     }
+
+    public void increaseCommentCount() {
+        this.commentCount++;
+    }
+
+    public void decreaseCommentCount() {
+        this.commentCount--;
+    }
 }
