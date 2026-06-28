@@ -23,6 +23,8 @@ public class Post {
 
     private LocalDateTime createdAt;
 
+    private LocalDateTime updatedAt;
+
     public void updateContent(String content) {
         this.content = content;
     }

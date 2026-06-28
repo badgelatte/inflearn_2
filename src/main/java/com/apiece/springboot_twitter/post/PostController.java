@@ -20,6 +20,7 @@ public class PostController {
         Post newPost = Post.builder()
                 .content(post.getContent())
                 .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
         // 하지 않으면 기본값이 들어감
         // 줄 맞추는 단축기 option & command & L
