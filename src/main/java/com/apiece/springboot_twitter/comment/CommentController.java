@@ -12,23 +12,24 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    public Comment createComment(
+    @PostMapping
+    public CommentResponse createComment(
             @PathVariable Long postId,
-            @RequestBody Comment comment
+            @RequestBody CommentRequest comment
     ) {
         return commentService.createComment(postId, comment);
     }
 
     @GetMapping
-    public List<Comment> getComments(@PathVariable Long postId) {
+    public List<CommentResponse> getComments(@PathVariable Long postId) {
         return commentService.getComments(postId);
     }
 
     @PutMapping("/{commentId}")
-    public Comment updateComment(
+    public CommentResponse updateComment(
             @PathVariable Long postId,
             @PathVariable Long commentId,
-            @RequestBody Comment comment
+            @RequestBody CommentRequest comment
     ) {
         return commentService.updatedComment(postId, commentId, comment);
     }
