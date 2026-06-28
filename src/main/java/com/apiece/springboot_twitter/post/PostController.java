@@ -17,7 +17,12 @@ public class PostController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/posts")
     public Post createPost(@RequestBody Post post) {
-        Post newPost = new Post(null, post.getContent(), LocalDateTime.now());
+        Post newPost = Post.builder()
+                .content(post.getContent())
+                .createdAt(LocalDateTime.now())
+                .build();
+        // 하지 않으면 기본값이 들어감
+        // 줄 맞추는 단축기 option & command & L
 
         postRepository.save(newPost);
 

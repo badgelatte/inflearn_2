@@ -1,10 +1,7 @@
 package com.apiece.springboot_twitter.post;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -14,12 +11,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "posts")
+@Builder
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // IDENTITY = DB 컬럼 설정에 맞게 JPA가 따라간다
     private Long id;
 
     private String content;
+
+    private int commentCount;
 
     private LocalDateTime createdAt;
 
